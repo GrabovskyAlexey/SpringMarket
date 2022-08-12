@@ -15,3 +15,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL94Dialect
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+  config:
+    import: security.yaml
