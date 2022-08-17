@@ -1,7 +1,9 @@
 package ru.grabovsky.market.models;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,32 +13,25 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name="products")
+@Table(name = "items")
 @Getter
 @Setter
 @ToString
-public class Product {
+@RequiredArgsConstructor
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "count")
+    private int count;
 
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "rating")
-    private BigDecimal rating;
-
-    @Column(name = "description")
-    private String description;
-
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    @ToString.Exclude
-    private Category category;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -49,13 +44,13 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Product product = (Product) o;
-        return id != null && Objects.equals(id, product.id);
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItem orderItem = (OrderItem) o;
+        return Objects.equals(id, orderItem.id) && Objects.equals(product.getId(), orderItem.product.getId());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(id, product.getId());
     }
 }

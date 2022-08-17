@@ -42,17 +42,22 @@ angular.module('market-front').controller('indexController', function ($rootScop
         const contextPath = 'http://localhost:8189/api/v1';
 
         $scope.loadCartSize = function () {
-            $http.get(contextPath + '/cart').then(function (response) {
-                $rootScope.cart_size = response.data.cart.length;
-                console.log($scope.cart_size);
+            let path;
+            if ($localStorage.cartId == null) {
+                path = contextPath + '/cart/';
+            } else {
+                path = contextPath + '/cart/' + $localStorage.cartId
+            }
+            $http.get(path).then(function (response) {
+                if (response.data.cart != null) {
+                    $rootScope.cart_size = response.data.cart.length;
+                }
+                $localStorage.cartId = response.data.id
             })
         };
 
         $rootScope.isUserLoggedIn = function () {
-            if ($localStorage.webMarketUser) {
-                return true;
-            }
-            return false;
+            return !!$localStorage.webMarketUser;
         }
 
         $scope.tryToLogIn = function () {
@@ -61,12 +66,10 @@ angular.module('market-front').controller('indexController', function ($rootScop
                     if (response.data.token) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                         $localStorage.webMarketUser = {username: $scope.user.username, token: response.data.token};
-
                         $scope.user.username = null;
                         $scope.user.password = null;
                     }
                 }, function errorCallback(response) {
-                    console.log(response)
                     alert(response.data.message);
                 });
         }
@@ -98,12 +101,9 @@ angular.module('market-front').controller('indexController', function ($rootScop
                         $scope.newUser.email = null;
                     }
                 }, function errorCallback(response) {
-                    console.log(response)
                     alert(response.data.message);
                 });
         }
-
         $scope.loadCartSize();
     }
 )
-;
