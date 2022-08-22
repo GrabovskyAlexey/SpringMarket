@@ -6,37 +6,23 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="products")
+@Table(name = "categories")
 @Getter
 @Setter
 @ToString
-public class Product {
+@RequiredArgsConstructor
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @Column(name = "rating")
-    private BigDecimal rating;
-
-    @Column(name = "description")
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    @ToString.Exclude
-    private Category category;
+    @Column(name = "name")
+    private String name;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -46,12 +32,15 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Product product = (Product) o;
-        return id != null && Objects.equals(id, product.id);
+        Category category = (Category) o;
+        return id != null && Objects.equals(id, category.id);
     }
 
     @Override

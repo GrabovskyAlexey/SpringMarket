@@ -1,4 +1,4 @@
-angular.module('market-front').controller('storeController', function ($scope, $http, $location, $rootScope) {
+angular.module('market-front').controller('storeController', function ($scope, $http, $location, $rootScope, $localStorage) {
     const contextPath = 'http://localhost:8189/api/v1';
     let currentPage = 1;
     $scope.loadProducts = function (pageIndex = 1) {
@@ -8,7 +8,6 @@ angular.module('market-front').controller('storeController', function ($scope, $
                 p: pageIndex
             }
         }).then(function (response) {
-            console.log('Content length: ' + response.data.content.length)
             $scope.emptyProductList = response.data.content.length <= 0
             if (response.data.numberOfElements < 1) {
                 currentPage = response.data.totalPages;
@@ -16,7 +15,6 @@ angular.module('market-front').controller('storeController', function ($scope, $
                     $scope.loadProducts(currentPage)
                 }
             } else {
-                console.log(response);
                 $scope.productsPage = response.data;
             }
         });
@@ -43,9 +41,10 @@ angular.module('market-front').controller('storeController', function ($scope, $
     }
 
     $scope.addToCart = function(product){
-        $http.put(contextPath + '/cart', product).then(function (response){
-            $rootScope.cart_size++;
-            console.log('Cart size in store = ' + $rootScope.cart_size)
+        let cartItem = {id: null, cartId: $localStorage.cartId, count: 1, price: product.price, product: product}
+        console.log(cartItem)
+        $http.put(contextPath + '/cart/', cartItem).then(function (response){
+            $rootScope.cart_size = response.data.cart!=null?response.data.cart.length:0;
         })
     }
 

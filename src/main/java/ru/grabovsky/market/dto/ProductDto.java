@@ -7,6 +7,7 @@ import ru.grabovsky.market.models.Product;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class ProductDto {
     @Length(min = 3, max = 255, message = "Длина названия товара должна составлять 3-255 символов")
     private String title;
     @Min(value = 1, message = "Цена товара должна быть не менее 1 рубля")
-    private int price;
+    private BigDecimal price;
 
     public ProductDto(Product product) {
         this.id = product.getId();

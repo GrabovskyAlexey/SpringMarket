@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset grabovsky.alexey:add product table
+-- changeset grabovsky.alexey:add_product_table
 CREATE TABLE "users"
 (
     "id"              bigserial PRIMARY KEY NOT NULL,
@@ -96,8 +96,8 @@ CREATE TABLE "products"
     "id"          bigserial PRIMARY KEY NOT NULL,
     "title"       varchar(250)          NOT NULL,
     "description" text,
-    "price"       numeric(2),
-    "rating"      numeric(2),
+    "price"       numeric(10,2),
+    "rating"      numeric(3,2),
     "category_id" bigint                NOT NULL,
     "created_at"  timestamp DEFAULT (current_timestamp),
     "updated_at"  timestamp DEFAULT (current_timestamp),
@@ -135,7 +135,7 @@ CREATE TABLE "items"
     "id"         bigserial PRIMARY KEY NOT NULL,
     "product_id" bigint                NOT NULL,
     "count"      int                   NOT NULL,
-    "price"      numeric(2)            NOT NULL,
+    "price"      numeric(10,2)            NOT NULL,
     "created_at" timestamp DEFAULT (current_timestamp),
     "updated_at" timestamp DEFAULT (current_timestamp),
     CONSTRAINT fk_product_item FOREIGN KEY ("product_id") REFERENCES "products" ("id")
