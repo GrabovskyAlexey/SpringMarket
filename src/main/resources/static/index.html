@@ -12,6 +12,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/jquery/jquery.min.js"></script>
 
 </head>
 <body ng-app="market-front">
@@ -28,6 +31,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#!/create_product">Добавить товар(техн)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/report">Получить отчет</a>
                     </li>
                     <li>
                         <a href="#!/cart_view">
@@ -94,6 +100,7 @@
             </div>
         </div>
     </nav>
+    <div id="liveAlertPlaceholder"></div>
     <ng-view></ng-view>
 
     <script src="index.js"></script>
@@ -102,6 +109,7 @@
     <script src="edit_product/edit_product.js"></script>
     <script src="create_product/create_product.js"></script>
     <script src="cart_view/cart_view.js"></script>
+    <script src="report/report.js"></script>
 </div>
 </body>
 </html>

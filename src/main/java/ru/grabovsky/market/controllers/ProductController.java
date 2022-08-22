@@ -11,6 +11,7 @@ import ru.grabovsky.market.dto.MessageDto;
 import ru.grabovsky.market.dto.ProductDto;
 import ru.grabovsky.market.exceptions.ResourceNotFoundException;
 import ru.grabovsky.market.exceptions.ValidationErrorException;
+import ru.grabovsky.market.mappers.ProductMapper;
 import ru.grabovsky.market.models.Product;
 import ru.grabovsky.market.services.ProductService;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @GetMapping("")
     public Page<ProductDto> getAllProducts(@RequestParam(required = false) Integer min,
@@ -29,12 +31,17 @@ public class ProductController {
         if (pageIndex < 1) {
             pageIndex = 1;
         }
-        return productService.findWithMinOrMaxPrice(min, max, pageIndex).map(ProductDto::new);
+        return productService.findWithMinOrMaxPrice(min, max, pageIndex).map(productMapper::mapToDto);
     }
 
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable Long id) {
-        return new ProductDto(productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found")));
+        return productMapper.mapToDto(
+                productService
+                        .findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found")
+                        )
+        );
     }
 
     @PostMapping("")

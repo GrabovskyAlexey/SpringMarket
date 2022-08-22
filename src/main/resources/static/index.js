@@ -26,6 +26,10 @@
                 templateUrl: 'cart_view/cart_view.html',
                 controller: 'cartController'
             })
+            .when('/report', {
+                templateUrl: 'report/report.html',
+                controller: 'reportController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

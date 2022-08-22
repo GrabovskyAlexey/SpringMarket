@@ -1,9 +1,9 @@
 package ru.grabovsky.market.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import ru.grabovsky.market.models.Product;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
     private Long id;
     @NotNull(message = "Товар должен иметь название")
@@ -19,9 +20,9 @@ public class ProductDto {
     @Min(value = 1, message = "Цена товара должна быть не менее 1 рубля")
     private BigDecimal price;
 
-    public ProductDto(Product product) {
-        this.id = product.getId();
-        this.title = product.getTitle();
-        this.price = product.getPrice();
-    }
+    private BigDecimal rating;
+
+    private String description;
+
+    private String categoryName;
 }
