@@ -1,0 +1,30 @@
+<h2>Список товаров</h2>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Price</td>
+            <td>Info</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in productsPage">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="deleteProduct(p, +productsPage.number+1)">
+                    Delete
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="editProduct(p.id)">
+                    Edit
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="addToCart(p)">
+                    Add to cart
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>

@@ -1,0 +1,51 @@
+<h2>Список товаров в корзине</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Price</td>
+            <td>Count</td>
+            <td>Info</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in cart">
+            <td>{{p.product.id}}</td>
+            <td>{{p.product.title}}</td>
+            <td>{{p.price}}</td>
+            <td>{{p.count}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="deleteProductFromCart(p)">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav ng-if="productsPage.totalElements > productsPage.size" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <button ng-if="productsPage.first" class="page-link disabled" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+                <button ng-if="!productsPage.first" class="page-link" ng-click="loadProducts(productsPage.number)"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+            <li class="page-item" ng-repeat="i in range(1, productsPage.totalPages)">
+                <button ng-if="productsPage.number == i -1" class="page-link active">{{i}}</button>
+                <button ng-if="productsPage.number != i -1" class="page-link" ng-click="loadProducts(i)">{{i}}</button>
+            </li>
+            <li class="page-item">
+                <button ng-if="productsPage.last" class="page-link disabled" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+                <button ng-if="!productsPage.last" ng-click="loadProducts(+productsPage.number + 2)" class="page-link"
+                    aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>

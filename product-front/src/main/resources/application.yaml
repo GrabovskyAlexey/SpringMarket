@@ -1,0 +1,8 @@
+server:
+  port: 8190
+  servlet:
+    context-path: /
+url:
+  cart: http://localhost:8191/api/v1/cart
+  product: http://localhost:8191/api/v1/products
+  category: http://localhost:8191/api/v1/categories

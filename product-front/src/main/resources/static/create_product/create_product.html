@@ -1,0 +1,18 @@
+<form novalidate>
+    <div class="mb-3">
+        <label for="productTitle" class="form-label">Title</label>
+        <input type="text" class="form-control" id="productTitle" placeholder="Title" ng-model="new_product.title">
+    </div>
+    <div class="mb-3">
+        <label for="productPrice" class="form-label">Price</label>
+        <input type="number" class="form-control" id="productPrice" placeholder="Price" ng-model="new_product.price">
+    </div>
+    <div class="mb-3">
+    <select class="form-select" aria-label="Default select example" ng-model="new_product.categoryName">
+        <option selected></option>
+        <option ng-repeat="cat in categories" value="{{cat.name}}">{{cat.name}}</option>
+    </select>
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="createNewProduct()">Save changes
+    </button>
+</form>

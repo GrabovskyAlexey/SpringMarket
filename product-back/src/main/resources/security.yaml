@@ -1,0 +1,3 @@
+jwt:
+  lifetime: 3600
+  secret: kfhksdfdskafhkjsahfkjsahfkajfhakjf
