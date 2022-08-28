@@ -17,3 +17,6 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
   config:
     import: security.yaml
+market:
+  storage:
+    path: files

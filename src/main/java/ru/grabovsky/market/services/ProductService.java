@@ -11,6 +11,7 @@ import ru.grabovsky.market.exceptions.ResourceNotFoundException;
 import ru.grabovsky.market.models.Product;
 import ru.grabovsky.market.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,10 @@ public class ProductService {
 
     public Page<Product> findAll(int id) {
         return productRepository.findAll(PageRequest.of(id, 10));
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     public void save(Product product) {
