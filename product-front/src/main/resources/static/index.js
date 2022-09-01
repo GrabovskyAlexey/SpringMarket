@@ -43,14 +43,14 @@
 })();
 
 angular.module('market-front').controller('indexController', function ($rootScope, $scope, $http, $localStorage) {
-        const contextPath = 'http://localhost:8190/api/v1';
+        $rootScope.contextPath = 'http://localhost:5000/products/api/v1';
 
         $scope.loadCartSize = function () {
             let path;
             if ($localStorage.cartId == null) {
-                path = contextPath + '/cart/';
+                path = $rootScope.contextPath + '/cart/';
             } else {
-                path = contextPath + '/cart/' + $localStorage.cartId
+                path = $rootScope.contextPath + '/cart/' + $localStorage.cartId
             }
             $http.get(path).then(function (response) {
                 if (response.data.cart != null) {
@@ -65,7 +65,7 @@ angular.module('market-front').controller('indexController', function ($rootScop
         }
 
         $scope.tryToLogIn = function () {
-            $http.post(contextPath + '/auth', $scope.user)
+            $http.post($rootScope.contextPath + '/auth', $scope.user)
                 .then(function successCallback(response) {
                     if (response.data.token) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
@@ -94,7 +94,7 @@ angular.module('market-front').controller('indexController', function ($rootScop
         }
 
         $scope.tryToRegister = function () {
-            $http.post(contextPath + '/register', $scope.newUser)
+            $http.post($rootScope.contextPath + '/register', $scope.newUser)
                 .then(function successCallback(response) {
                     if (response.data.token) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;

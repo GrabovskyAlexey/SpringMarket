@@ -1,13 +1,11 @@
-angular.module('market-front').controller('createProductController', function ($scope, $http, $location) {
-    const contextPath = 'http://localhost:8190/api/v1';
-
+angular.module('market-front').controller('createProductController', function ($scope, $rootScope, $http, $location) {
     $scope.createNewProduct = function () {
         if ($scope.new_product == null) {
             alert("Форма не заполнена");
             return;
         }
         console.log($scope.new_product)
-        $http.post(contextPath + '/products', $scope.new_product)
+        $http.post($rootScope.contextPath + '/products', $scope.new_product)
             .then(function successCallback(response) {
                     $scope.new_product = null;
                     alert("Продукт успешно добавлен");
@@ -19,7 +17,7 @@ angular.module('market-front').controller('createProductController', function ($
             );
     }
     $scope.getCategories = () => {
-        $http.get(contextPath + '/categories')
+        $http.get($rootScope.contextPath + '/categories')
             .then(function(response){
             $scope.categories = response.data;
             console.log($scope.categories)
