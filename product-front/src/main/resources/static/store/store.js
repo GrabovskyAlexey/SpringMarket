@@ -1,14 +1,13 @@
 angular.module('market-front').controller('storeController', function ($scope, $http, $location, $rootScope, $localStorage) {
-    const contextPath = 'http://localhost:8190/api/v1';
     $scope.loadProducts = function () {
-        $http.get(contextPath + '/products').then(function (response) {
+        $http.get($rootScope.contextPath + '/products').then(function (response) {
             console.log(response.data)
             $scope.productsPage = response.data;
         });
     }
 
     $scope.deleteProduct = function (product) {
-        $http.delete(contextPath + '/products/' + product.id).then(function (response) {
+        $http.delete($rootScope.contextPath + '/products/' + product.id).then(function (response) {
             alert(response.data.message)
             $scope.loadProducts(currentPage)
         });
@@ -30,7 +29,7 @@ angular.module('market-front').controller('storeController', function ($scope, $
     $scope.addToCart = function (product) {
         let cartItem = {id: null, cartId: $localStorage.cartId, count: 1, price: product.price, product: product}
         console.log(cartItem)
-        $http.put(contextPath + '/cart/', cartItem).then(function (response) {
+        $http.put($rootScope.contextPath + '/cart/', cartItem).then(function (response) {
             $rootScope.cart_size = response.data.cart != null ? response.data.cart.length : 0;
         })
     }
