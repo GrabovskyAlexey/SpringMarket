@@ -1,4 +1,4 @@
-package ru.grabovsky.productback.config;
+package ru.grabovsky.cartservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

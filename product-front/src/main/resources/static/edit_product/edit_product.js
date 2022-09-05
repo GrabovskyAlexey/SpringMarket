@@ -1,6 +1,6 @@
 angular.module('market-front').controller('editProductController', function ($scope, $http, $rootScope, $routeParams, $location) {
     $scope.getCategories = () => {
-        $http.get($rootScope.contextPath + '/categories')
+        $http.get($rootScope.contextPath + '/products/api/v1/categories')
             .then(function(response){
                 $scope.categories = response.data;
                 console.log($scope.categories)
@@ -9,7 +9,7 @@ angular.module('market-front').controller('editProductController', function ($sc
     $scope.getCategories();
 
     $scope.updateProduct = function () {
-        $http.put($rootScope.contextPath + '/products', $scope.update_product)
+        $http.put($rootScope.contextPath + '/products/api/v1/products', $scope.update_product)
             .then(function successCallback(response) {
                     $scope.update_product = null;
                     alert("Продукт успешно обновлен");
@@ -20,7 +20,7 @@ angular.module('market-front').controller('editProductController', function ($sc
             );
     }
     $scope.loadProduct = function (){
-        $http.get($rootScope.contextPath + '/products/' + $routeParams.productId)
+        $http.get($rootScope.contextPath + '/products/api/v1/products/' + $routeParams.productId)
             .then(function successCallback(response){
                 $scope.update_product = response.data;
             }, function errorCallback(response){

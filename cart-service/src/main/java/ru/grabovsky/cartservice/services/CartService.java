@@ -1,13 +1,13 @@
-package ru.grabovsky.productback.services;
+package ru.grabovsky.cartservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import ru.grabovsky.productback.dto.CartDto;
-import ru.grabovsky.productback.dto.CartItemDto;
-import ru.grabovsky.productback.repositories.CartRepository;
+import ru.grabovsky.cartservice.dto.CartDto;
+import ru.grabovsky.cartservice.dto.CartItemDto;
+import ru.grabovsky.cartservice.repositories.CartRepository;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
