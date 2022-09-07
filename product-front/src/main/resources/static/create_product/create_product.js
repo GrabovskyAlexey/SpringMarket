@@ -5,7 +5,7 @@ angular.module('market-front').controller('createProductController', function ($
             return;
         }
         console.log($scope.new_product)
-        $http.post($rootScope.contextPath + '/products', $scope.new_product)
+        $http.post($rootScope.contextPath + '/products/api/v1/products', $scope.new_product)
             .then(function successCallback(response) {
                     $scope.new_product = null;
                     alert("Продукт успешно добавлен");
@@ -17,7 +17,7 @@ angular.module('market-front').controller('createProductController', function ($
             );
     }
     $scope.getCategories = () => {
-        $http.get($rootScope.contextPath + '/categories')
+        $http.get($rootScope.contextPath + '/products/api/v1/categories')
             .then(function(response){
             $scope.categories = response.data;
             console.log($scope.categories)

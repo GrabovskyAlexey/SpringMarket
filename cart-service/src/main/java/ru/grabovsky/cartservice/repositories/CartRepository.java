@@ -1,9 +1,10 @@
-package ru.grabovsky.productback.repositories;
+package ru.grabovsky.cartservice.repositories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
-import ru.grabovsky.productback.dto.CartDto;
+import ru.grabovsky.cartservice.dto.CartDto;
+
 
 import java.util.ArrayList;
 

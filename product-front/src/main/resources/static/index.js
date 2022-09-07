@@ -43,14 +43,14 @@
 })();
 
 angular.module('market-front').controller('indexController', function ($rootScope, $scope, $http, $localStorage) {
-        $rootScope.contextPath = 'http://localhost:5000/products/api/v1';
+        $rootScope.contextPath = 'http://localhost:5000';
 
         $scope.loadCartSize = function () {
             let path;
             if ($localStorage.cartId == null) {
-                path = $rootScope.contextPath + '/cart/';
+                path = $rootScope.contextPath + '/cart/api/v1/cart/'
             } else {
-                path = $rootScope.contextPath + '/cart/' + $localStorage.cartId
+                path = $rootScope.contextPath + '/cart/api/v1/cart/' + $localStorage.cartId
             }
             $http.get(path).then(function (response) {
                 if (response.data.cart != null) {

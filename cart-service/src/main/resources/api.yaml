@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: Cart service
+  description: Cart service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8192/cart-service/api/v1/'
+paths:
+  /cart:
+    get:
+      summary: Get empty cart
+      operationId: getEmptyCart
+      tags:
+        - cart
+      responses:
+        '200':
+          description: User cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartDto"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /cart/{cartId}:
+    get:
+      summary: List of products in cart
+      operationId: getCart
+      tags:
+        - cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartDto"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Add product in cart
+      operationId: addProductToCart
+      tags:
+        - cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+      requestBody:
+        description: Cart Item
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItemDto'
+      responses:
+        '200':
+          description: Successfully add product to cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartDto"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /cart/{cartId}/{itemId}:
+    delete:
+      summary: Delete item from cart
+      operationId: deleteProductFromCart
+      tags:
+        - cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+        - name: itemId
+          in: path
+          required: true
+          description: Item id
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Cart without deleted item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartDto"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    CartItemDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        cartId:
+          type: string
+        count:
+          type: integer
+          format: int64
+        price:
+          type: number
+          format: double
+        productName:
+          type: string
+        productId:
+          type: integer
+          format: int64
+    CartDto:
+      type: object
+      properties:
+        id:
+          type: string
+        cart:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItemDto'
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
