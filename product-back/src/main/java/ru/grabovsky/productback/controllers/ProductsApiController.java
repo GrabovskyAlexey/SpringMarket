@@ -68,7 +68,8 @@ public class ProductsApiController implements ProductsApi {
 
     @Override
     public ResponseEntity<Void> updateProduct(ProductDto productDto) {
-        productService.updateProductFromDto(productDto);
+        System.out.println("Update");
+        productService.update(productMapper.mapFromDto(productDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

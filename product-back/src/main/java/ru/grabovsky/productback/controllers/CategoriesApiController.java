@@ -9,10 +9,10 @@ import ru.grabovsky.productback.dto.CategoryDto;
 import ru.grabovsky.productback.mappers.CategoryMapper;
 import ru.grabovsky.productback.services.CategoryService;
 
+import javax.annotation.Generated;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-05T13:24:58.033551+03:00[Europe/Moscow]")
 @Controller

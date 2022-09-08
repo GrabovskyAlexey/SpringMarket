@@ -163,4 +163,34 @@ public interface CartApi {
         return getDelegate().getEmptyCart();
     }
 
+    /**
+     * GET /cart/clear : clear cart
+     *
+     * @return User cart (status code 200)
+     *         or Bad Request (status code 400)
+     */
+    @Operation(
+            operationId = "clearCart",
+            summary = "Clear cart",
+            tags = { "cart" },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User cart", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = CartDto.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+                    })
+            }
+    )
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/cart/{cartId}/clear",
+            produces = { "application/json" }
+    )
+    default ResponseEntity<CartDto> clearCart(
+            @Parameter(name = "cartId", description = "Cart id", required = true) @PathVariable("cartId") String cartId
+    ) {
+        return getDelegate().clearCart();
+    }
+
 }
