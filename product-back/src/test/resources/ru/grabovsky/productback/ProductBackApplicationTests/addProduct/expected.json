@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Milk",
+    "price": 98.02,
+    "rating": 0,
+    "description": "Fresh Milk",
+    "categoryName": "Food"
+  },
+  {
+    "id": 2,
+    "title": "Bread",
+    "price": 23.07,
+    "rating": 0,
+    "description": "Fresh Bread",
+    "categoryName": "Food"
+  },
+  {
+    "id": 3,
+    "title": "Cheese",
+    "price": 230.04,
+    "rating": 0,
+    "description": "Fresh Cheese",
+    "categoryName": "Food"
+  }
+]

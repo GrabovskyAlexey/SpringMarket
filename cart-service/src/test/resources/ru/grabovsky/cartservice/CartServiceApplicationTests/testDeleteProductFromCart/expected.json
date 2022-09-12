@@ -1,0 +1,13 @@
+{
+  "id": "test-cart",
+  "cart": [
+    {
+      "cartId": "test-cart",
+      "id": 2,
+      "productId": 4,
+      "count": 2,
+      "price": 12.05,
+      "productName": "Bread"
+    }
+  ]
+}

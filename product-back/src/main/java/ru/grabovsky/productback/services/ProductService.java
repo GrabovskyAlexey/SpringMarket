@@ -3,8 +3,6 @@ package ru.grabovsky.productback.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.grabovsky.productback.dto.ProductDto;
-import ru.grabovsky.productback.exceptions.ResourceNotFoundException;
 import ru.grabovsky.productback.models.Product;
 import ru.grabovsky.productback.repositories.ProductRepository;
 
@@ -29,11 +27,8 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProductFromDto(ProductDto productDto) {
-        Product product = findById(productDto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product id = " + productDto.getId() + " not found"));
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
+    public void update(Product product) {
+        productRepository.save(product);
     }
 
     public void deleteById(Long id) {

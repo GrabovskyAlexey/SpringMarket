@@ -7,7 +7,7 @@ import org.mapstruct.Mappings;
 import ru.grabovsky.productback.dto.ProductDto;
 import ru.grabovsky.productback.models.Product;
 
-@Mapper(injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = CategoryMapper.class)
+@Mapper(uses = CategoryMapper.class)
 public interface ProductMapper {
 
     @Mappings(value = {

@@ -154,17 +154,12 @@ public class CartItemDto {
       return false;
     }
     CartItemDto cartItemDto = (CartItemDto) o;
-    return Objects.equals(this.id, cartItemDto.id) &&
-        Objects.equals(this.cartId, cartItemDto.cartId) &&
-        Objects.equals(this.count, cartItemDto.count) &&
-        Objects.equals(this.price, cartItemDto.price) &&
-        Objects.equals(this.productName, cartItemDto.productName) &&
-        Objects.equals(this.productId, cartItemDto.productId);
+    return Objects.equals(this.productId, cartItemDto.productId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, cartId, count, price, productName, productId);
+    return Objects.hash(productId);
   }
 
   @Override

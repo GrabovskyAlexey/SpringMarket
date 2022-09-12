@@ -53,4 +53,10 @@ public class CartApiController implements CartApi {
         String cartId = UUID.randomUUID().toString();
         return new ResponseEntity<>(cartService.getCart(cartId), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<CartDto> clearCart(String cartId) {
+        cartService.clear(cartId);
+        return ResponseEntity.ok(cartService.getCart(cartId));
+    }
 }
