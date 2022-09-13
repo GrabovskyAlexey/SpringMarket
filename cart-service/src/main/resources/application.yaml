@@ -1,2 +1,5 @@
 server:
   port: 8192
+kafka:
+  group-id: orders
+  server: localhost:9092

@@ -1,4 +1,4 @@
-package ru.grabovsky.market.models;
+package ru.grabovsky.orderservice.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -6,23 +6,29 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "items")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-public class Category {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "count")
+    private int count;
+
+    @Column(name = "price")
+    private BigDecimal price;
+
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -32,16 +38,22 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "category")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "product_id")
     @ToString.Exclude
-    private List<Product> products;
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @ToString.Exclude
+    private Order order;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Category category = (Category) o;
-        return id != null && Objects.equals(id, category.id);
+        OrderItem orderItem = (OrderItem) o;
+        return id != null && Objects.equals(id, orderItem.id);
     }
 
     @Override

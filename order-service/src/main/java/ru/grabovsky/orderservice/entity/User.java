@@ -1,23 +1,30 @@
-package ru.grabovsky.authservice.models.entity;
+package ru.grabovsky.orderservice.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
-@Table(name = "roles")
-public class Role {
+@Table(name="users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
-    private String name;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "email")
+    private String email;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -26,8 +33,4 @@ public class Role {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public Role(String name) {
-        this.name = name;
-    }
 }

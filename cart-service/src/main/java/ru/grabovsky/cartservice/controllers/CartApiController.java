@@ -1,6 +1,5 @@
 package ru.grabovsky.cartservice.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.grabovsky.cartservice.dto.CartDto;
 import ru.grabovsky.cartservice.dto.CartItemDto;
+import ru.grabovsky.cartservice.dto.DeliveryAddressDto;
 import ru.grabovsky.cartservice.services.CartService;
 
 import javax.annotation.Generated;
@@ -58,5 +58,10 @@ public class CartApiController implements CartApi {
     public ResponseEntity<CartDto> clearCart(String cartId) {
         cartService.clear(cartId);
         return ResponseEntity.ok(cartService.getCart(cartId));
+    }
+
+    @Override
+    public ResponseEntity<CartDto> createOrder(String cartId, DeliveryAddressDto addressDto) {
+        return ResponseEntity.ok(cartService.createOrder(cartId, addressDto));
     }
 }

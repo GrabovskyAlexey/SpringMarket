@@ -21,5 +21,13 @@ angular.module('market-front').controller('cartController', function ($scope, $h
         });
     }
 
+    $scope.createOrder = () => {
+        console.log("start ordering")
+        $http.post($rootScope.contextPath + '/cart/api/v1/cart/' + $localStorage.cartId +'/order', $scope.address)
+        .then(function (response){
+            console.log("create order");
+        });
+    }
+
     $scope.loadCart();
 });
