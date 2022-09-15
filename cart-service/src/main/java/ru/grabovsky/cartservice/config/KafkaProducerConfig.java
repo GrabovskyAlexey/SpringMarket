@@ -34,7 +34,6 @@ public class KafkaProducerConfig {
         configProps.put(
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 JsonSerializer.class);
-//        configProps.put(ProducerConfig.)
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
