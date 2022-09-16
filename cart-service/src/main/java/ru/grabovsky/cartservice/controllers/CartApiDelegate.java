@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
 import ru.grabovsky.cartservice.dto.CartDto;
 import ru.grabovsky.cartservice.dto.CartItemDto;
+import ru.grabovsky.cartservice.dto.DeliveryAddressDto;
+
 
 import javax.annotation.Generated;
 import java.util.Optional;
@@ -113,13 +115,37 @@ public interface CartApiDelegate {
     }
 
     /**
-     * GET /cart/clear : Clear cart
+     * GET /cart/{cartId}/clear : Clear cart
      *
      * @return User cart (status code 200)
      *         or Bad Request (status code 400)
      * @see CartApi#clearCart
      */
     default ResponseEntity<CartDto> clearCart() {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"id\" : \"id\", \"cart\" : [ { \"productId\" : 5, \"price\" : 1.4658129805029452, \"cartId\" : \"cartId\", \"count\" : 6, \"id\" : 0, \"productName\" : \"productName\" }, { \"productId\" : 5, \"price\" : 1.4658129805029452, \"cartId\" : \"cartId\", \"count\" : 6, \"id\" : 0, \"productName\" : \"productName\" } ] }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
+     * POST /cart/{cartId}/order : Create order
+     *
+     * @param cartId Cart id (required)
+     * @param addressDto Address (required)
+     * @return Successfully create order (status code 200)
+     *         or Bad Request (status code 400)
+     * @see CartApi#createOrder
+     */
+    default ResponseEntity<CartDto> createOrder(String cartId,
+                                                     DeliveryAddressDto addressDto) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

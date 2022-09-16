@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import ru.grabovsky.cartservice.dto.CartDto;
-import ru.grabovsky.cartservice.dto.CartItemDto;
+import ru.grabovsky.cartservice.dto.*;
 import ru.grabovsky.cartservice.repositories.CartRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CartService {
     private final CartRepository repository;
+
+    private final KafkaTemplate<String, OrderDto> kafkaTemplate;
 
     @Cacheable(value = "userCart", key = "#cartId")
     public CartDto getCart(String cartId) {
@@ -53,5 +56,24 @@ public class CartService {
 
     @CacheEvict(value = "userCart", key = "#cartId")
     public void clear(String cartId) {
+    }
+
+    public CartDto createOrder(String cartId, DeliveryAddressDto addressDto){
+        CartDto cart = getCart(cartId);
+        OrderDto order = OrderDto.builder()
+                .address(addressDto)
+                .status(OrderStatus.CREATED)
+                .userId(2L)
+                .items(cart.getCart().stream()
+                        .map(item -> OrderItemDto.builder()
+                                .count(item.getCount().intValue())
+                                .price(BigDecimal.valueOf(item.getPrice()))
+                                .productId(item.getProductId())
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
+        kafkaTemplate.send("orders-to-create", order);
+        clear(cartId);
+        return getCart(cartId);
     }
 }

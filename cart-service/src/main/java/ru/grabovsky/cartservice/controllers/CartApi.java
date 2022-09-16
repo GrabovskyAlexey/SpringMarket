@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.grabovsky.cartservice.dto.CartDto;
 import ru.grabovsky.cartservice.dto.CartItemDto;
+import ru.grabovsky.cartservice.dto.DeliveryAddressDto;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -164,7 +165,7 @@ public interface CartApi {
     }
 
     /**
-     * GET /cart/clear : clear cart
+     * GET /cart/{cartId}/clear : clear cart
      *
      * @return User cart (status code 200)
      *         or Bad Request (status code 400)
@@ -191,6 +192,37 @@ public interface CartApi {
             @Parameter(name = "cartId", description = "Cart id", required = true) @PathVariable("cartId") String cartId
     ) {
         return getDelegate().clearCart();
+    }
+
+    /**
+     * GET /cart/{cartId}/order : create order
+     *
+     * @return User cart (status code 200)
+     *         or Bad Request (status code 400)
+     */
+    @Operation(
+            operationId = "createOrder",
+            summary = "Create order",
+            tags = { "cart" },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User cart", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = CartDto.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+                    })
+            }
+    )
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "/cart/{cartId}/order",
+            produces = { "application/json" }
+    )
+    default ResponseEntity<CartDto> createOrder(
+            @Parameter(name = "cartId", description = "Cart id", required = true) @PathVariable("cartId") String cartId,
+            @Parameter(name = "DeliveryAddressDto", description = "Delivery Address", required = true) @Valid @RequestBody DeliveryAddressDto addressDto
+    ) {
+        return getDelegate().createOrder(cartId, addressDto);
     }
 
 }

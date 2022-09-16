@@ -1,51 +1,88 @@
 <h2>Список товаров в корзине</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Title</td>
-            <td>Price</td>
-            <td>Count</td>
-            <td>Info</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in cart">
-            <td>{{p.product.id}}</td>
-            <td>{{p.product.title}}</td>
-            <td>{{p.price}}</td>
-            <td>{{p.count}}</td>
-            <td>
-                <button type="button" class="btn btn-primary" ng-click="deleteProductFromCart(p)">
-                    Delete
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <nav ng-if="productsPage.totalElements > productsPage.size" aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <button ng-if="productsPage.first" class="page-link disabled" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </button>
-                <button ng-if="!productsPage.first" class="page-link" ng-click="loadProducts(productsPage.number)"
-                   aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </button>
-            </li>
-            <li class="page-item" ng-repeat="i in range(1, productsPage.totalPages)">
-                <button ng-if="productsPage.number == i -1" class="page-link active">{{i}}</button>
-                <button ng-if="productsPage.number != i -1" class="page-link" ng-click="loadProducts(i)">{{i}}</button>
-            </li>
-            <li class="page-item">
-                <button ng-if="productsPage.last" class="page-link disabled" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </button>
-                <button ng-if="!productsPage.last" ng-click="loadProducts(+productsPage.number + 2)" class="page-link"
+<table class="table">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Price</td>
+        <td>Count</td>
+        <td>Info</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="p in cart">
+        <td>{{p.productId}}</td>
+        <td>{{p.productName}}</td>
+        <td>{{p.price}}</td>
+        <td>{{p.count}}</td>
+        <td>
+            <button type="button" class="btn btn-primary" ng-click="deleteProductFromCart(p)">
+                Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Оформить заказ
+    </a>
+</p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        <form>
+            <div class="mb-3">
+                <label for="country" class="form-label">Страна</label>
+                <input type="text" class="form-control" id="country" ng-model="address.country">
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">Город</label>
+                <input type="text" class="form-control" id="city" ng-model="address.city">
+            </div>
+            <div class="mb-3">
+                <label for="region" class="form-label">Область</label>
+                <input type="text" class="form-control" id="region" ng-model="address.region">
+            </div>
+            <div class="mb-3">
+                <label for="street" class="form-label">Улица</label>
+                <input type="text" class="form-control" id="street" ng-model="address.street">
+            </div>
+            <div class="mb-3">
+                <label for="house" class="form-label">Дом</label>
+                <input type="text" class="form-control" id="house" ng-model="address.house">
+            </div>
+            <div class="mb-3">
+                <label for="flat" class="form-label">Квартира</label>
+                <input type="text" class="form-control" id="flat" ng-model="address.flat">
+            </div>
+            <button type="submit" class="btn btn-primary" ng-click="createOrder()">Заказать</button>
+        </form>
+    </div>
+</div>
+<nav ng-if="productsPage.totalElements > productsPage.size" aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <button ng-if="productsPage.first" class="page-link disabled" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+            <button ng-if="!productsPage.first" class="page-link" ng-click="loadProducts(productsPage.number)"
+                    aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        <li class="page-item" ng-repeat="i in range(1, productsPage.totalPages)">
+            <button ng-if="productsPage.number == i -1" class="page-link active">{{i}}</button>
+            <button ng-if="productsPage.number != i -1" class="page-link" ng-click="loadProducts(i)">{{i}}</button>
+        </li>
+        <li class="page-item">
+            <button ng-if="productsPage.last" class="page-link disabled" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+            <button ng-if="!productsPage.last" ng-click="loadProducts(+productsPage.number + 2)" class="page-link"
                     aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </button>
-            </li>
-        </ul>
-    </nav>
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>

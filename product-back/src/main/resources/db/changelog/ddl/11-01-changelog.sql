@@ -96,8 +96,8 @@ CREATE TABLE "products"
     "id"          bigserial PRIMARY KEY NOT NULL,
     "title"       varchar(250)          NOT NULL,
     "description" text,
-    "price"       numeric(10,2),
-    "rating"      numeric(3,2),
+    "price"       numeric(10, 2),
+    "rating"      numeric(3, 2),
     "category_id" bigint                NOT NULL,
     "created_at"  timestamp DEFAULT (current_timestamp),
     "updated_at"  timestamp DEFAULT (current_timestamp),
@@ -130,29 +130,30 @@ CREATE TABLE "reviews"
 );
 COMMENT ON TABLE "reviews" IS 'Таблица для отзывов';
 
-CREATE TABLE "items"
-(
-    "id"         bigserial PRIMARY KEY NOT NULL,
-    "product_id" bigint                NOT NULL,
-    "count"      int                   NOT NULL,
-    "price"      numeric(10,2)            NOT NULL,
-    "created_at" timestamp DEFAULT (current_timestamp),
-    "updated_at" timestamp DEFAULT (current_timestamp),
-    CONSTRAINT fk_product_item FOREIGN KEY ("product_id") REFERENCES "products" ("id")
-);
-COMMENT ON TABLE "items" IS 'Таблица для элементов заказа';
 
 CREATE TABLE "orders"
 (
     "id"           bigserial PRIMARY KEY NOT NULL,
     "user_id"      bigint                NOT NULL,
-    "item_id"      bigint                NOT NULL,
     "address_id"   bigint                NOT NULL,
     "order_status" text                  NOT NULL,
     "created_at"   timestamp DEFAULT (current_timestamp),
     "updated_at"   timestamp DEFAULT (current_timestamp),
     CONSTRAINT fk_user_order FOREIGN KEY ("user_id") REFERENCES "users" ("id"),
-    CONSTRAINT fk_item_order FOREIGN KEY ("item_id") REFERENCES "items" ("id"),
     CONSTRAINT fk_order_address FOREIGN KEY ("address_id") REFERENCES "delivery_addresses" ("id")
 );
 COMMENT ON TABLE "orders" IS 'Таблица для заказов';
+
+CREATE TABLE "items"
+(
+    "id"         bigserial PRIMARY KEY NOT NULL,
+    "product_id" bigint                NOT NULL,
+    "order_id"   bigint                NOT NULL,
+    "count"      int                   NOT NULL,
+    "price"      numeric(10, 2)        NOT NULL,
+    "created_at" timestamp DEFAULT (current_timestamp),
+    "updated_at" timestamp DEFAULT (current_timestamp),
+    CONSTRAINT fk_product_item FOREIGN KEY ("product_id") REFERENCES "products" ("id"),
+    CONSTRAINT fk_item_order FOREIGN KEY ("order_id") REFERENCES "orders" ("id")
+);
+COMMENT ON TABLE "items" IS 'Таблица для элементов заказа';
