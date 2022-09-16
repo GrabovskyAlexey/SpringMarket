@@ -3,3 +3,9 @@ server:
 kafka:
   group-id: orders
   server: localhost:9092
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8083/auth/realms/market
