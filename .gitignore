@@ -34,3 +34,4 @@ build/
 .vscode/
 /.jpb/jpb-settings.xml
 /src/main/resources/security.yaml
+keycloak-service/src/main/resources/security.yaml

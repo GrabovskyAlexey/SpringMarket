@@ -11,17 +11,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ru.grabovsky.cartservice.dto.CartDto;
 import ru.grabovsky.cartservice.dto.CartItemDto;
 import ru.grabovsky.cartservice.dto.DeliveryAddressDto;
 
 import javax.annotation.Generated;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-05T12:09:37.809503+03:00[Europe/Moscow]")
@@ -219,10 +218,11 @@ public interface CartApi {
             produces = { "application/json" }
     )
     default ResponseEntity<CartDto> createOrder(
+            @RequestHeader String username,
             @Parameter(name = "cartId", description = "Cart id", required = true) @PathVariable("cartId") String cartId,
             @Parameter(name = "DeliveryAddressDto", description = "Delivery Address", required = true) @Valid @RequestBody DeliveryAddressDto addressDto
+//            HttpServletRequest request
     ) {
         return getDelegate().createOrder(cartId, addressDto);
     }
-
 }

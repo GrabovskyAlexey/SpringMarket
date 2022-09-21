@@ -15,4 +15,9 @@ public class UserService {
     public User getUserById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
+
+    public User getUserByUsername(String username){
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
 }

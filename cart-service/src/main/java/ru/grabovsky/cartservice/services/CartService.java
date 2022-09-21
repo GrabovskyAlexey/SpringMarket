@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class CartService {
     private final CartRepository repository;
 
+    private final UserService userService;
     private final KafkaTemplate<String, OrderDto> kafkaTemplate;
 
     @Cacheable(value = "userCart", key = "#cartId")
@@ -56,14 +57,16 @@ public class CartService {
 
     @CacheEvict(value = "userCart", key = "#cartId")
     public void clear(String cartId) {
+        getCart(cartId).getCart().clear();
     }
 
-    public CartDto createOrder(String cartId, DeliveryAddressDto addressDto){
+    @CachePut(value = "userCart", key = "#cartId")
+    public CartDto createOrder(String cartId, DeliveryAddressDto addressDto, String username){
         CartDto cart = getCart(cartId);
         OrderDto order = OrderDto.builder()
                 .address(addressDto)
                 .status(OrderStatus.CREATED)
-                .userId(2L)
+                .userId(userService.getUserIdByUsername(username))
                 .items(cart.getCart().stream()
                         .map(item -> OrderItemDto.builder()
                                 .count(item.getCount().intValue())
@@ -73,7 +76,7 @@ public class CartService {
                         .collect(Collectors.toList()))
                 .build();
         kafkaTemplate.send("orders-to-create", order);
-        clear(cartId);
-        return getCart(cartId);
+        cart.clear();
+        return cart;
     }
 }

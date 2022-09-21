@@ -22,13 +22,21 @@
                 templateUrl: 'create_product/create_product.html',
                 controller: 'createProductController'
             })
-            .when('/cart_view', {
+            .when('/cart', {
                 templateUrl: 'cart_view/cart_view.html',
                 controller: 'cartController'
             })
             .when('/report', {
                 templateUrl: 'report/report.html',
                 controller: 'reportController'
+            })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
+            .when('/order_pay/:orderId', {
+                templateUrl: 'order_pay/order_pay.html',
+                controller: 'orderPayController'
             })
             .otherwise({
                 redirectTo: '/'
@@ -37,7 +45,21 @@
 
     function run($rootScope, $http, $localStorage) {
         if ($localStorage.webMarketUser) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.webMarketUser.token;
+            try {
+                let jwt = $localStorage.webMarketUser.token;
+                let payload = JSON.parse(atob(jwt.split('.')[1]));
+                let currentTime = parseInt(new Date().getTime() / 1000);
+                if (currentTime > payload.exp) {
+                    console.log("Token is expired!!!");
+                    delete $localStorage.webMarketUser;
+                    $http.defaults.headers.common.Authorization = '';
+                }
+            } catch (e) {
+            }
+
+            if ($localStorage.webMarketUser) {
+                $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.webMarketUser.token;
+            }
         }
     }
 })();
@@ -52,6 +74,7 @@ angular.module('market-front').controller('indexController', function ($rootScop
             } else {
                 path = $rootScope.contextPath + '/cart/api/v1/cart/' + $localStorage.cartId
             }
+            console.log("Cart url: " + path)
             $http.get(path).then(function (response) {
                 if (response.data.cart != null) {
                     $rootScope.cart_size = response.data.cart.length;
@@ -64,8 +87,8 @@ angular.module('market-front').controller('indexController', function ($rootScop
             return !!$localStorage.webMarketUser;
         }
 
-        $scope.tryToLogIn = function () {
-            $http.post($rootScope.contextPath + '/auth', $scope.user)
+        $scope.tryToAuth = function () {
+            $http.post($rootScope.contextPath + '/auth/auth', $scope.user)
                 .then(function successCallback(response) {
                     if (response.data.token) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;

@@ -6,16 +6,15 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      default-filters:
-        - TokenRelay=
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://localhost:8190"
+            allowedOrigins: "http://localhost:8190/"
             allowedMethods:
               - GET
               - POST
               - PUT
+              - DELETE
             allowedHeaders: "*"
       routes:
         - id: product-service
@@ -25,6 +24,7 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/prod-service
+            - JwtAuthFilter
         - id: cart-service
           uri: http://localhost:8192
           predicates:
@@ -32,6 +32,7 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/cart-service
+            - JwtAuthFilter
         - id: order-service
           uri: http://localhost:8193
           predicates:
@@ -39,17 +40,28 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8083/auth/realms/market
-        registration:
-          core-client:
-            provider: keycloak
-            client-id: core-client
-            client-secret: qbXBGMia8U3GapRcOu5tnnFxWUC5CujG
-            scope:
-              - read
-              - write
+            - JwtAuthFilter
+        - id: auth-service
+          uri: http://localhost:8180
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/
+            - JwtAuthFilter
+jwt:
+  secret: h4f8093h4f983yhrt9834hr0934hf0hf493g493gf438rh438th34g34g
+#  security:
+#    oauth2:
+#      client:
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8083/auth/realms/market
+#        registration:
+#          core-client:
+#            provider: keycloak
+#            client-id: core-client
+#            client-secret: 9n6vrmsDdOSWb6a9BYYq6AkK20VO8Uad
+#            scope:
+#              - read
+#              - write

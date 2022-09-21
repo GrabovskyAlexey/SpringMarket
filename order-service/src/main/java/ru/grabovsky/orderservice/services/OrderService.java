@@ -5,13 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.grabovsky.orderservice.dto.OrderDto;
-import ru.grabovsky.orderservice.entity.DeliveryAddress;
-import ru.grabovsky.orderservice.entity.Order;
-import ru.grabovsky.orderservice.entity.OrderItem;
+import ru.grabovsky.orderservice.entity.*;
 import ru.grabovsky.orderservice.repositories.OrderRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,8 +55,19 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrderById(Long id){
+    public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
+    }
+
+    public void changeOrderStatus(Long orderId, OrderStatus status) {
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+    public List<Order> getOrdersByUsername(String username){
+        User user = userService.getUserByUsername(username);
+        return orderRepository.findAllByUser(user);
     }
 
 }

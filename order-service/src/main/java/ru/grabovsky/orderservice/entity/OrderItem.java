@@ -48,6 +48,10 @@ public class OrderItem {
     @ToString.Exclude
     private Order order;
 
+    public BigDecimal getTotalPrice(){
+        return price.multiply(BigDecimal.valueOf(count));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
