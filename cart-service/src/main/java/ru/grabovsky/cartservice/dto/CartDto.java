@@ -107,5 +107,8 @@ public class CartDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  public void clear(){
+    cart.clear();
+  }
 }
 

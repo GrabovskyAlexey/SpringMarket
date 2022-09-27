@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.grabovsky.orderservice.entity.OrderStatus;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -18,4 +19,11 @@ public class OrderDto {
     private Long userId;
     private DeliveryAddressDto address;
     private List<OrderItemDto> items;
+    private BigDecimal totalPrice;
+
+    public void recalculate(){
+        totalPrice = items.stream()
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getCount())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

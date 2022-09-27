@@ -2,6 +2,8 @@
 server:
   port: 8193
 spring:
+  config:
+    import: secret.yaml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/market
@@ -19,11 +21,11 @@ spring:
           json:
             trusted:
               packages: ru.grabovsky.cartservice.dto.OrderDto
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8083/auth/realms/market
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8083/auth/realms/market
 logging:
   level:
     ru:

@@ -24,12 +24,16 @@
     </tbody>
 </table>
 <p>
-    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+    <a ng-show="isUserLoggedIn() && cart.length > 0" class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Оформить заказ
+    </a>
+    <a ng-show="!isUserLoggedIn() || cart.length <= 0" class="btn btn-secondary disabled" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">
         Оформить заказ
     </a>
 </p>
-<div class="collapse" id="collapseExample">
+<div ng-show="isUserLoggedIn()" class="collapse" id="collapseExample">
     <div class="card card-body">
         <form>
             <div class="mb-3">
@@ -56,7 +60,8 @@
                 <label for="flat" class="form-label">Квартира</label>
                 <input type="text" class="form-control" id="flat" ng-model="address.flat">
             </div>
-            <button type="submit" class="btn btn-primary" ng-click="createOrder()">Заказать</button>
+            <button  type="submit" class="btn btn-primary" ng-click="createOrder()">Заказать</button>
+            <button ng-show="!isUserLoggedIn()" type="submit" class="btn btn-primary" disabled>Заказать</button>
         </form>
     </div>
 </div>

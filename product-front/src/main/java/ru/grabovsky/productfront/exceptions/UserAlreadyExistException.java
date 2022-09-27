@@ -1,7 +1,0 @@
-package ru.grabovsky.productfront.exceptions;
-
-public class UserAlreadyExistException extends RuntimeException{
-    public UserAlreadyExistException(String message) {
-        super(message);
-    }
-}

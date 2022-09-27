@@ -15,11 +15,11 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
   config:
     import: security.yaml
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8083/auth/realms/market
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8083/auth/realms/market
 market:
   storage:
     path: files

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -48,11 +49,11 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Set<OrderItem> items;
 
-
-//            "user_id"      bigint                NOT NULL,
-//            "address_id"   bigint                NOT NULL,
-//    CONSTRAINT fk_user_order FOREIGN KEY ("user_id") REFERENCES "users" ("id"),
-//    CONSTRAINT fk_order_address FOREIGN KEY ("address_id") REFERENCES "delivery_addresses" ("id")
+    public BigDecimal getTotalPrice(){
+        return items.stream()
+                .map(OrderItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
     @Override
     public boolean equals(Object o) {
